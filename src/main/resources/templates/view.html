@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head">
+<head th:replace="~{fragments :: head}">
 </head>
 <body>
-<header th:replace="fragments :: header"></header>
+<header th:replace="~{fragments :: header}"></header>
 <h5 th:unless="${petitions} and ${petitions.size()}">no petitions available at this time</h5>
 <ul>
     <li th:each="petition : ${petitions}">
@@ -13,6 +13,7 @@
             <p th:text="${petition.getDescription()}"></p>
             <p th:text="${petition.getAuthor().getName()}"></p>
             <p th:text="${petition.getSignatures().size()}"></p>
+            <a th:href="@{/view/__${petition.getUniqueTitle()}__}">click</a>
         </div>
     </li>
 </ul>

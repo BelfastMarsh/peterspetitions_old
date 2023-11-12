@@ -6,6 +6,17 @@
 <header th:replace="~{fragments :: header}"></header>
 
 <h2 th:text="${petition.getTitle()}"></h2>
+<p th:text="${petition.getDescription}"></p>
+<p>by <span th:text="${petition.getAuthor().getName}"></span></p>
+<p th:unless="${petition.getSignatures().size()}">No one has signed the petition yet :(</p>
+<ul>
+    <li th:each="signer : ${petition.getSignatures()}">
+        <div>
+            <p th:text="${signer.getName()}"></p>
+            <p th:text="${signer.getEmail()}"></p>
+        </div>
+    </li>
+</ul>
 <form method="post" th:action="@{/view/__${uTitle}__/add}">
     <input type="text" name="name">
     <input type="text" name="email">

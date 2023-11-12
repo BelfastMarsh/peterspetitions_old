@@ -30,13 +30,13 @@ public class PetitionController {
     }
 
 
-    @GetMapping(value = "/view/{name}")
-    public String petition(Model model, @PathVariable String name){
+    @GetMapping(value = "/view/{pttn}")
+    public String petition(Model model, @PathVariable String pttn){
 
-        List<Petition> somePetitions = Petition.getAllPetitions().stream().filter(pt -> pt.getUniqueTitle().equalsIgnoreCase(name)).toList();
+        List<Petition> somePetitions = Petition.getAllPetitions().stream().filter(pt -> pt.getUniqueTitle().equalsIgnoreCase(pttn)).toList();
         if (somePetitions.isEmpty())
             return "404";
-        model.addAttribute("uTitle", name);
+        model.addAttribute("uTitle", pttn);
         Petition thePetition = somePetitions.get(0);
         model.addAttribute("petition", thePetition);
         model.addAttribute("title", thePetition.getTitle());
@@ -44,9 +44,13 @@ public class PetitionController {
 
     }
 
+
     @PostMapping(value = "/view/{pttn}/add")
     public String addSignature(@RequestParam("name") String name, @RequestParam("email") String email, @PathVariable String pttn){
         List<Petition> somePetitions = Petition.getAllPetitions().stream().filter(pt -> pt.getUniqueTitle().equalsIgnoreCase(pttn)).toList();
+
+        if (somePetitions.isEmpty()) return "404";
+
         Petition p = somePetitions.get(0);
         p.addSignatory(name, email);
         return "redirect:/view/"+pttn;
@@ -77,10 +81,6 @@ public class PetitionController {
         this.coreActions(model, "Search Petitions");
         return "index";
     }
-
-
-
-
 
 
 

@@ -50,10 +50,10 @@ public class Petition {
         this.author = author;
 
         // I remember stuff from last year! - this is so you can have more than one petition with the same name
-        // in the hash map
+        // in the array list
         int existingTitles = allPetitions.stream().filter(
                 pt -> pt.title.equalsIgnoreCase(this.title)).toArray().length;
-        this.uniqueTitle = title + "_p" + (++existingTitles);
+        this.uniqueTitle = title.replace(' ','_') + "_i" + (++existingTitles);
         //System.out.println(this.uniqueTitle);
         // add itself to the static reference list
         Petition.allPetitions.add(this);
