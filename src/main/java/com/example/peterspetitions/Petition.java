@@ -19,23 +19,23 @@ public class Petition {
     /**
      * the title of the petition
      */
-    private String title;
-    private String uniqueTitle;
+    protected String title;
+    protected String uniqueTitle;
 
     /**
      * the description of the petition
      */
-    private String description;
+    protected String description;
 
     /**
      * the signatories of the petition
      */
-    private ArrayList<User> signatures;
+    protected ArrayList<User> signatures;
 
     /**
      * the author of the petition
      */
-    private User author;
+    protected User author;
 
     /**
      * Constructor
@@ -85,5 +85,9 @@ public class Petition {
 
     public User getAuthor() {
         return author;
+    }
+
+    public String getTitle(String bookender) {
+        return bookender + this.title + bookender;
     }
 }
