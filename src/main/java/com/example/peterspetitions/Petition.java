@@ -13,8 +13,6 @@ public class Petition {
     private static ArrayList< Petition> allPetitions = new ArrayList<>();
 
     public static ArrayList<Petition> getAllPetitions(){
-        Petition p1 = new Petition("hello", "this is a test, hello", new User("peter", "peter@email.com"));
-        Petition p2 = new Petition("New Petition", "something about birds?", new User("bob", "b@o.b"));
 
         return allPetitions;
     }
@@ -55,11 +53,22 @@ public class Petition {
         // in the hash map
         int existingTitles = allPetitions.stream().filter(
                 pt -> pt.title.equalsIgnoreCase(this.title)).toArray().length;
-        this.uniqueTitle = title + "_p" + existingTitles + 1;
+        this.uniqueTitle = title + "_p" + (++existingTitles);
+        //System.out.println(this.uniqueTitle);
         // add itself to the static reference list
         Petition.allPetitions.add(this);
     }
+    public Petition(String title, String description, User author, String un) {
+        this.title = title;
+        this.description = description;
+        this.signatures = new ArrayList<>();
+        this.author = author;
 
+        this.uniqueTitle = un;
+        //System.out.println(this.uniqueTitle);
+        // add itself to the static reference list
+        Petition.allPetitions.add(this);
+    }
 
     public String getDescription() {
         return description;

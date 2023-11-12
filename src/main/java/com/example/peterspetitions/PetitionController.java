@@ -1,11 +1,12 @@
 package com.example.peterspetitions;
 
-import jakarta.annotation.PostConstruct;
+
+import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import java.util.*;
 
@@ -26,9 +27,16 @@ public class PetitionController {
 
 
     @GetMapping(value = "/view/{name}")
-    public String petition(Model model, @PathVariable String name){
-        this.coreActions(model, "Petition - " + name);
-        return "index";
+    public String petition(Model model, @PathVariable(required = false) String name){
+
+        List<Petition> somePetitions = Petition.getAllPetitions().stream().filter(pt -> pt.getUniqueTitle().equalsIgnoreCase(name)).toList();
+        if (somePetitions.isEmpty())
+            return "404";
+        Petition thePetition = somePetitions.get(0);
+        model.addAttribute("petition", thePetition);
+        model.addAttribute("title", thePetition.getTitle());
+        return "view-petition";
+
     }
 
     /**
@@ -39,7 +47,6 @@ public class PetitionController {
     @GetMapping(value = "/view")
     public String view(Model model){
         this.coreActions(model, "View All Petitions");
-        //model.addAttribute("petitions", Petition.getAllPetitions());
         return "view";
     }
 
