@@ -1,7 +1,7 @@
 package com.example.peterspetitions;
 
+import java.util.Hashtable;
 import java.util.ArrayList;
-
 /**
  * class to describe a petition
  */
@@ -10,15 +10,19 @@ public class Petition {
     /**
      * a list of all the petitions
      */
-    private static ArrayList<Petition> petitions = new ArrayList<>();
+    private static ArrayList< Petition> allPetitions = new ArrayList<>();
 
-    public static ArrayList<Petition> getPetitions(){
-        return petitions;
+    public static ArrayList<Petition> getAllPetitions(){
+        Petition p1 = new Petition("hello", "this is a test, hello", new User("peter", "peter@email.com"));
+        Petition p2 = new Petition("New Petition", "something about birds?", new User("bob", "b@o.b"));
+
+        return allPetitions;
     }
     /**
      * the title of the petition
      */
     private String title;
+    private String uniqueTitle;
 
     /**
      * the description of the petition
@@ -39,14 +43,21 @@ public class Petition {
      * Constructor
      * @param title
      * @param description
-     * @param signatures
      * @param author
      */
-    public Petition(String title, String description, ArrayList<User> signatures, User author) {
+    public Petition(String title, String description, User author) {
         this.title = title;
         this.description = description;
-        this.signatures = signatures;
+        this.signatures = new ArrayList<>();
         this.author = author;
+
+        // I remember stuff from last year! - this is so you can have more than one petition with the same name
+        // in the hash map
+        int existingTitles = allPetitions.stream().filter(
+                pt -> pt.title.equalsIgnoreCase(this.title)).toArray().length;
+        this.uniqueTitle = title + "_p" + existingTitles + 1;
+        // add itself to the static reference list
+        Petition.allPetitions.add(this);
     }
 
 
@@ -56,6 +67,9 @@ public class Petition {
 
     public String getTitle() {
         return title;
+    }
+    public String getUniqueTitle() {
+        return uniqueTitle;
     }
 
     public ArrayList<User> getSignatures() {
