@@ -58,17 +58,6 @@ public class Petition {
         // add itself to the static reference list
         Petition.allPetitions.add(this);
     }
-    public Petition(String title, String description, User author, String un) {
-        this.title = title;
-        this.description = description;
-        this.signatures = new ArrayList<>();
-        this.author = author;
-
-        this.uniqueTitle = un;
-        //System.out.println(this.uniqueTitle);
-        // add itself to the static reference list
-        Petition.allPetitions.add(this);
-    }
 
     public String getDescription() {
         return description;
@@ -79,6 +68,11 @@ public class Petition {
     }
     public String getUniqueTitle() {
         return uniqueTitle;
+    }
+
+    public void addSignatory(String name, String emailAddress){
+        this.signatures.add(new User(name, emailAddress));
+        System.out.println(this.signatures.size());
     }
 
     public ArrayList<User> getSignatures() {

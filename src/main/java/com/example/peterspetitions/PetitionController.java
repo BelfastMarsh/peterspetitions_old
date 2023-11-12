@@ -1,11 +1,15 @@
 package com.example.peterspetitions;
 
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.*;
@@ -27,17 +31,28 @@ public class PetitionController {
 
 
     @GetMapping(value = "/view/{name}")
-    public String petition(Model model, @PathVariable(required = false) String name){
+    public String petition(Model model, @PathVariable String name){
 
         List<Petition> somePetitions = Petition.getAllPetitions().stream().filter(pt -> pt.getUniqueTitle().equalsIgnoreCase(name)).toList();
         if (somePetitions.isEmpty())
             return "404";
+        model.addAttribute("uTitle", name);
         Petition thePetition = somePetitions.get(0);
         model.addAttribute("petition", thePetition);
         model.addAttribute("title", thePetition.getTitle());
         return "view-petition";
 
     }
+
+    @PostMapping(value = "/view/{pttn}/add")
+    public String addSignature(@RequestParam("name") String name, @RequestParam("email") String email, @PathVariable String pttn){
+        List<Petition> somePetitions = Petition.getAllPetitions().stream().filter(pt -> pt.getUniqueTitle().equalsIgnoreCase(pttn)).toList();
+        Petition p = somePetitions.get(0);
+        p.addSignatory(name, email);
+        return "redirect:/view/"+pttn;
+    }
+
+
 
     /**
      *
