@@ -3,6 +3,8 @@ package com.example.peterspetitions;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Collections;
+
 @SpringBootApplication
 public class PeterspetitionsApplication {
 
@@ -13,7 +15,10 @@ public class PeterspetitionsApplication {
 		Petition p4 = new Petition("New Petition", "something about birds?", new User("bob", "b@o.b"));
 		//Petition styl = new Petition("some style", "", new User("", ""), "style.css");
 		//Petition scpt = new Petition("some Script", "", new User("", ""), "script.js");
-		SpringApplication.run(PeterspetitionsApplication.class, args);
+		SpringApplication app = new SpringApplication(PeterspetitionsApplication.class);
+		app.setDefaultProperties(
+				Collections.singletonMap("server.port", "9090"));
+		app.run(args);
 	}
 
 }
