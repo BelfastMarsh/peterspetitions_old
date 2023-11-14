@@ -5,8 +5,7 @@ FROM tomcat:latest
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 # Copy your WAR file into the Tomcat webapps directory
-COPY /root/.jenkins/workspace/PetersPetitions_pipe/target/peterspetitions.war /usr/local/tomcat/webapps/
-
+ADD /root/.jenkins/workspace/PetersPetitions_pipe/target/peterspetitions.war /usr/local/tomcat/webapps/
 
 # Expose the port the Tomcat server will be listening on
-EXPOSE 8082
+EXPOSE 9090
