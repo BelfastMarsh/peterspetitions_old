@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage ('GetProject') {
             steps {
-                git 'https://github.com/BelfastMarsh/ct5717_SpringBoot2.git'
+                git 'https://github.com/BelfastMarsh/peterspetitions.git'
             }
         }
         stage ('build') {
