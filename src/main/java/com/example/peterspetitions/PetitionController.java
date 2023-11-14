@@ -68,6 +68,10 @@ public class PetitionController {
         this.coreActions(model, "View All Petitions");
         return "view";
     }
+    @GetMapping(value = "/{page}/")
+    public String redirectView(Model model, @PathVariable String page){
+        return "redirect:/" + page;
+    }
 
     @GetMapping(value = "/create")
     public String create(Model model){
@@ -110,7 +114,8 @@ public class PetitionController {
         */
         for (String bit : bits){
             List<Petition> matchingPetitions =
-                Petition.getAllPetitions().stream().filter(p -> p.getTitle().toLowerCase().contains(bit.toLowerCase())).toList();
+                Petition.getAllPetitions().stream().filter(p ->
+                        p.getTitle().toLowerCase().contains(bit.toLowerCase())).toList();
             for (Petition petition : matchingPetitions){
                 if (!weightedPetitions.containsKey(petition.getUniqueTitle())){
                     weightedPetitions.put(petition.getUniqueTitle(), new WeightedPetition(0,petition));
