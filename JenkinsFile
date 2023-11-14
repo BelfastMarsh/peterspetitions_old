@@ -1,6 +1,9 @@
+sudo systemctl start tomcat
+
+
+
 pipeline {
     agent any
-    options { disableConcurrentBuilds(abortPrevious: true) }
     stages {
         stage ('GetProject') {
             steps {
@@ -10,14 +13,26 @@ pipeline {
         stage ('build') {
             steps {
                 sh 'mvn clean:clean'
-                sh 'mvn dependency:copy-dependencies'
-                sh 'mvn compiler:compile'
             }
         }
-        stage ('Exec') {
+        stage ('Package') {
             steps {
-                sh 'mvn exec:java'
+                sh 'mvn package'
             }
         }
+        stage ('Archive') {
+            steps {
+                archiveArtifacts allowEmptyArchive: true,
+                artifacts: '**/demo*.war'
+            }
+        }
+        stage ('Deploy') {
+            steps {
+                sh 'docker build -f Dockerfile -t myapp . '
+                sh 'docker rm -f "myappcontainer" || true'
+                sh 'docker run --name "myappcontainer" -p 8085:8080 --detach myapp:latest'
+            }
+        }
+
     }
 }
