@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh 'docker build -f Dockerfile -t peterspetitions . '
                 sh 'docker rm -f "TomCatContainer" || true'
-                sh 'docker run --name "TomCatContainer" -p 8085:8080 --detach peterspetitions:latest'
+                sh 'docker run --name "TomCatContainer" -p 9090:8080 --detach peterspetitions:latest'
             }
         }
 

@@ -2,10 +2,8 @@
 FROM tomcat:latest
 
 # Copy your WAR file into the Tomcat webapps directory
-COPY ./target/peterspetitions.war TomCatContainer:/usr/local/tomcat/webapps
-
-#COPY ${TOMCAT_FILE_PATH}/* ${CATALINA_HOME}/conf/
+ADD ./target/*.war /usr/local/tomcat/webapps/
 
 # Expose the port the Tomcat server will be listening on
-EXPOSE 8085
-ENTRYPOINT ["catalina.sh", "run"]
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
