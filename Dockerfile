@@ -5,5 +5,5 @@ FROM tomcat:latest
 ADD ./target/*.war /usr/local/tomcat/webapps/
 
 # Expose the port the Tomcat server will be listening on
-EXPOSE 8080
+EXPOSE 9090
 CMD ["catalina.sh", "run"]
